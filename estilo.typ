@@ -702,7 +702,7 @@
     show list: set block(inset: (top: 0.5em, bottom:0.5em))
     set enum(indent: 1em)
     set list(indent: 1em)
-    set columns(2, gutter: 5mm)
+    set columns(2, gutter: 5mm, balanced: true)
     show link: set text(fill: rgb("#0000EE"), font: _mono.familia, tracking: -0.5pt)
 
     // :FACER: referencias a ecuacións, figuras, etc
