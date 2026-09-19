@@ -123,10 +123,11 @@ O **ficheiro principal** de cada revista noméase como, se é a revista número 
 que fai é cargar o estilo da revista, aplicalo, e chamar a función que xera o contido.
 
 ```typst
-// revistas/001/revista_001.typ
+// Ficheiro: revistas/001/revista_001.typ
 #import("/estilo.typ"): *
+#import("/revistas/001/datos_001.typ"): informacion_revista
 
-#crear_revista()
+#crear_revista("001", informacion_revista)
 ```
 
 O **ficheiro de datos** de cada revista vén sendo `revistas/001/datos_001.typ`,
@@ -135,7 +136,7 @@ que artigos meter dentro, que cores usar, que datas, imaxe da portada, etc. Este
 sobreescriben os que temos por defecto no ficheiro `estilo.typ`.
 
 ```typst
-// revistas/001/datos_001.typ
+// Ficheiro: revistas/001/datos_001.typ
 #let informacion_revista = (
 
     artigos : (
@@ -180,7 +181,8 @@ Os artigos gárdanse no mesmo directorio que o `/revistas/001/revista_001.typ` c
 e inclúense na revista metendo o seu nome en `datos_001.typ`. Teñen a seguinte forma:
 
 ```typst
-// revistas/001/artigo_MAR_BT.typ
+// Ficheiro: revistas/001/artigo_MAR_BT.typ
+#import("/estilo.typ"): *
 
 // Á función `Artigo` pode pasárselle a info deste artigo concreto
 #show: Artigo.with(
