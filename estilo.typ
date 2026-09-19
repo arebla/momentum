@@ -87,10 +87,9 @@
 //     --font-path=fontes        -> usar fontes do directorio 'fontes'
 //     --timings=.aux/perf.json  -> gardar datos da compilación
 //     --input numero=001        -> número da revista
-//     --input rama=principal    -> rama de Git actual    | Estas 4 opcións collen a info
+//     --input rama=principal    -> rama de Git actual    | Estas 3 opcións collen a info
 //     --input hash=9000e53      -> hash de Git actual    | automaticamente usando Git
 //     --input dirt=*            -> estado do WorkingTree | na Makefile
-//     --input quen=davis        -> quen está a compilar  |
 //
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //
@@ -116,6 +115,7 @@
     repositorio       : "fisicaUSC/revista",
     whatsapp          : "https://chat.whatsapp.com/E900g1Bq7QT5ZKeuiIpxTk",
     instagram         : "momentum.usc",
+    twitter           : "momentumusc",
     anteriores        : "https://www.usc.gal/gl/centro/facultade-fisica/revista-estudantil-momentum",
     correo            : "revistafisicaUSC@gmail.com",
     participantes     : ( "-- SEN POSTOS -- ": ("-- SEN PARTICIPANTES --",),),
@@ -432,7 +432,7 @@
     grid(
 
     // Grid tamaño 4x3
-    rows    : (2cm, 1fr  , 5.5cm, 3.5cm),
+    rows    : (2cm, 1fr  , 7cm, 3.5cm),
     columns : (1fr, 1.5cm, 6.2cm       ),
 
     // Índice de artigos
@@ -452,6 +452,7 @@
                 )
             )
             // Texto coas liñas e o tema da sección
+            // :FACER: poñer esta función afora do grid
             let separador(tema) = block(
                 width: 10cm,
                 grid(
@@ -542,7 +543,7 @@
         {
             set par(spacing: 0pt)
             grid(
-                rows: 3,
+                rows: 4,
                 row-gutter: 1em,
                 columns : (100%,),
                 // CORREO
@@ -557,20 +558,31 @@
                     text(size: 20pt, font: _simb.familia)[#h(3pt) ],
                     link("https://www.instagram.com/" + datos.instagram, sans[@#datos.instagram])
                 ),
+                // TWITTER
+                grid(
+                    columns:1, rows:2, row-gutter: 7pt,
+                    text(size: 20pt, font: _simb.familia)[#h(3pt) 󰕄],
+                    link("https://www.twitter.com/" + datos.twitter, sans[@#datos.twitter])
+                ),
                 // INFO GIT
                 grid(
-                    columns:1, rows:4, row-gutter: 7pt,
+                    columns:1, rows:3, row-gutter: 7pt,
                     text(size: 20pt, font: _simb.familia)[#h(3pt) ],
-                    link("https://github.com/" + datos.repositorio, mono[#datos.repositorio]),
+                    link(
+                        "https://github.com/" + datos.repositorio,
+                        {
+                            set text(size: 0.9em)
+                            mono[#datos.repositorio]
+                        }
+                    ),
                     {
+                        set text(size: 0.9em)
                         simbolos[]
                         mono(sys.inputs.at("rama", default: "sen rama"))
                         [:]
                         mono(sys.inputs.at("hash", default: "sen hash"))
                         mono(sys.inputs.at("dirt", default: "sen dirt"))
-                    },
-                    // :FACER: quitar isto? ou movelo
-                    mono[Compilado por: #sys.inputs.at("quen", default: "sen quen")]
+                    }
                 )
             )
         }
@@ -650,7 +662,7 @@
                     align   : (left + top),
                     {
                         let p = counter(page).get().first()
-                        [*#numbering("1",p)*]
+                        [*#numbering("1",p)*#h(1fr)#text(font:_sans.familia, fill: rgb(datos.cor_resalte), [MOMENTUM])]
                     }
                 )
             } else {
@@ -661,7 +673,7 @@
                     align   : (right + top),
                     {
                         let p = counter(page).get().first()
-                        [*#numbering("1",p)*]
+                        [#text(font:_sans.familia, fill: rgb(datos.cor_resalte), [MOMENTUM])#h(1fr)*#numbering("1",p)*]
                     }
                 )
             }
@@ -961,7 +973,7 @@
 #let CrearBibliografia(bib) = {
     // Nota: as traducións de CSL están incluídas xa en hayagriva: https://github.com/typst/hayagriva/blob/main/archive/locales/gl-ES.cbor
     // :FACER:MIGRACION: usar o nome do ficheiro automaticamente
-    heading(depth: 2, condensada[*Bibliografía*])
+    heading(depth: 2, condensada[*Referencias*])
     bibliography(
         bib,
         style: "/momentum-citacions.csl",
