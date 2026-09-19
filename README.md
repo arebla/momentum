@@ -227,7 +227,7 @@ de Typst, GNU-Make e Git instalados e na `$PATH`. En principio só se contempla
 o uso en distribucións de Linux, pero pode que macOS e Windows tamén
 funcionen. Alternativamente, pódese compilar en liña a través de
 [typst.app](https://typst.app/) (ver instrucións
-[aquí](.docs/edicion_online_typstapp.md)).
+[aquí](./docs/edicion_online_typstapp.md)).
 
 - O recomendable é traballar en Linux e ter unha [instalación de rust](https://rustup.rs/),
   logo instalar a última versión de desenvolvemento de Typst usando
