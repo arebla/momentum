@@ -2,7 +2,7 @@
 
 #let numero = sys.inputs.at("numero")
 #let version = sys.inputs.at("version")
-#import("/estilo.typ"): datos
+#import("/estilo.typ"): datos_actuais
 
 #set text(
     font     : "New Computer Modern Sans",
@@ -33,7 +33,8 @@
 
 #let propaganda(
     estilo : none
-) = {
+) = context {
+    let datos = datos_actuais()
 
     if (estilo != "branca") and (estilo != "cor" ) { panic("As opcións para a propaganda son 'branca' ou 'cor'") }
 
