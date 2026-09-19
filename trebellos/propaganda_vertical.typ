@@ -35,7 +35,7 @@
 #let propaganda(
     estilo : none,
 ) = context {
-    let datos = datosActuais()
+    let datos = datos_actuais()
     if (estilo != "branca") and (estilo != "cor" ) { panic("As opcións para a propaganda son 'branca' ou 'cor'") }
     set align(center)
 
