@@ -1,12 +1,15 @@
 #let informacion_revista = (
 
     artigos : (
-        "/revistas/006/artigo_ENTREVISTA.typ",
-		    "/revistas/006/artigo_VICTOR_DD.typ",
-		    "/revistas/006/artigo_JULIO_NF.typ",
+        "/revistas/006/artigo_ENTREVISTA_BEGOÑA.typ",
+        "/revistas/006/artigo_ENTREVISTA_JAIME.typ",
+        "/revistas/006/artigo_VICTOR_DD.typ",
+        "/revistas/006/artigo_JULIO_NF.typ",
         "/revistas/006/artigo_RAUL_FC.typ",
+        "/revistas/006/artigo_SEBASTIAN_TP.typ",
         "/revistas/006/artigo_DAVID_CV.typ",
-        "/revistas/006/artigo_SAXA_ESTEVO_MARTA.typ"
+        "/revistas/006/artigo_SAXA_ESTEVO_MARTA.typ",
+        "/revistas/006/artigo_CLUB_FOTO.typ"
     ),
 
     cor_resalte: "ff0000",
@@ -22,21 +25,21 @@
     comentario_imaxe: "",
 
     participantes: (
-       "Dirección": (
+        "Dirección": (
             "Carolina Castro Rodríguez",
             "Sebastián Táboas Pazo",
             "Xulia Arán Paredes",
             "Mauro Garrido Rodríguez",
-       ),
-       "Edición": (
+        ),
+        "Edición": (
             "Andrea Real Blanco",
             "David Cotelo Varela",
             "Diego Couto García",
             "Víctor Díaz Díaz",
-       ),
-       "Correción": (
+        ),
+        "Correción": (
             "Manuel Galán Rodríguez",
-       ),
+        ),
     ),
 
 
