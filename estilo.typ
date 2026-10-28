@@ -489,7 +489,7 @@
                                 ],
                             )
                             h(1fr)
-                            [*#artigo.localizacion.page*] // PÁXINA
+                            [*#(artigo.localizacion.page - 2)*] // PÁXINA, compensando onde comezan os artigos
                             linebreak()
                             artigo.autoria // AUTORÍA
                             v(1em)
