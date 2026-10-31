@@ -24,7 +24,7 @@
 
   #v(0.3em)
 
-  #line(length: 100%, stroke: 0.6pt + rgb(datos.cor_resalte))
+  #context line(length: 100%, stroke: 0.6pt + rgb(datos_actuais().cor_resalte))
 
   #Pregunta[
     Gustaríame comezar agradecendo o interese posto na revista e na
