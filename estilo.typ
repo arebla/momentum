@@ -10,7 +10,7 @@
 // se ve, deberías mirar aquí. Intentei que esto estivese comentado na medida do
 // posible, para facilitar o uso e modificación desto no futuro. Todo esto foi
 // escrito de 0 por varios estudantes da facultade de física da universidade de
-// Santiago de Compostela. Se queredes saber como contribuír, botádelle un ollo ao
+// Santiago de Compostela. Se queres saber como contribuír, botádelle un ollo ao
 // arquivo README.md. Este é un proxecto libre, de uso e de responsabilidade. En
 // ningún momento nos imos facer responsables se compilas esto e se che queima a
 // CPU (dudo que pase).
@@ -19,9 +19,9 @@
 //
 // Defínense varias funcións xerais na revista. En principio intentei usar a
 // filosofía fundamental (pero inacabada) de Typst, onde unhas funcións
-// devolven contido (texto, cadros, táboas, etc.) e outras funcións cambian
-// o estilo dese contido. Por desgraza, a día de hoxe non existe unha
-// diferencia clara nos elementos fundamentais que se poden customizar, así que
+// devolven contido (texto, cadros, táboas, etc.) e outras funcións que cambian
+// o estilos dese contido. Por desgraza, a día de hoxe non existe unha
+// diferencia clara nos elementos fundamentais que se poden customizar, asique
 // a separación que fago eu non é perfecta. Véxase:
 //
 // https://github.com/typst/typst/issues/147
@@ -31,17 +31,17 @@
 //
 //
 //     estilo_xeral(...)         -> Estilo xeral. Fonte principal, metadatos do
-//                                  documento, tamaño de páxina e algúns tamaños.
+//                                  documento, tamaño de páxina, e algúns tamaños.
 //     estilo_portada(...)       -> Estilo da portada. Marxes diferentes.
-//     estilo_indice(...)        -> Estilo para a páxina do índice. Cambia as
-//                                  cores da columna dereita e pon un rectángulo
-//                                  de cor na páxina.
-//     estilo_artigos(...)       -> Estilo do corpo da revista (ou sexa, os artigos).
+//     estilo_indice(...)        -> Estilo para a páxina do índice. Este estilo
+//                                  cambia as cores da columna dereita, e pon un
+//                                  rectangulo de cor na páxina.
+//     estilo_artigos(...)       -> Estilo do corpo da revista (ousexa, os artigos).
 //                                  Posición dos números da páxina, encabezados, marxes
-//                                  xustificación do texto e formatos menores
+//                                  xustificación do texto, e formatos menores
 //     estilo_contraportada(...) -> Estilo da contraportada
 //
-// 2) Funcións que crean dito contido:
+// 2) Funcións que crean dito contido
 //
 //     crear_portada(...)       -> Contido da portada. Un grid de 4x1.
 //                                 - Título
@@ -51,7 +51,7 @@
 //     crear_indice(...)        -> Contido do índice. Un grid de 4x3. A primeira
 //                                 columna está toda xunta e ten o índice. A
 //                                 segunda columna é estrutural, permite espazar
-//                                 ben as cousas. A terceira columna ten:
+//                                 ben as cousas. A 3ªcolumna ten:
 //                                 - Data e número
 //                                 - Participantes
 //                                 - Contactos
@@ -64,31 +64,31 @@
 // 3) Función para activar o estilo concreto dun artigo, moi importante.
 //
 //     Artigo(...) -> Crea o titular dun artigo (título, subtitulo,
-//                     autoría,...), coas cores indicadas. Tamén cambia o estilo
+//                     autoría,...), cas cores indicadas. Tamén cambia o estilo
 //                     da páxina (encabezados), e vai gardando nun array a
 //                     información dos artigos (título, autoría e posición) para
-//                     logo poder usala no índice.
+//                     logo poder usala no índice
 //
-// 4) Función que xunta todo:
+// 4) Función que xunta todo
 //
 //     crear_revista(...) -> Xera a revista.
 //
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //
-// A revista debe compilarse coas seguintes opcións (úsanse automaticamente coa
+// A revista debe compilarse cas seguintes opcións (úsanse automáticamente ca
 // Makefile):
 // typst compile
 //     --format pdf              -> formato
-//     --root .                  -> directorio 'raíz'
+//     --root .                  -> diretorio 'raíz'
 //     --pdf-standard 2.0        -> versión do PDF
 //     --diagnostic-format short -> erros en versión corta
 //     --ignore-system-fonts     -> non usar fontes do sistema
 //     --ignore-embedded-fonts   -> non usar fontes de typst
-//     --font-path=fontes        -> usar fontes do directorio 'fontes'
+//     --font-path=fontes        -> usar fontes do diretorio 'fontes'
 //     --timings=.aux/perf.json  -> gardar datos da compilación
 //     --input numero=001        -> número da revista
 //     --input rama=principal    -> rama de Git actual    | Estas 3 opcións collen a info
-//     --input hash=9000e53      -> hash de Git actual    | automaticamente usando Git
+//     --input hash=9000e53      -> hash de Git actual    | automáticamente usando Git
 //     --input dirt=*            -> estado do WorkingTree | na Makefile
 //
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +98,7 @@
 // tanto coa Makefile (`make numero=001`)
 // coma directamente (`typst compile --root . revistas/001/revista_001.typ`).
 //
-// Información por defecto da revista. Esta información logo sobreescríbese coa
+// Información por defecto da revista. Esta información logo sobreescríbese ca
 // info específica de cada número
 #let informacion_por_defecto = (
     numero            : "001",
@@ -151,7 +151,7 @@
 // `#context rgb(datos_actuais().cor_resalte)`
 #let datos_actuais() = _datos.get()
 
-
+//
 // Array que se encherá de dicionarios con info dos artigos, co seu título,
 // autoría e localización. Úsase para xerar o índice, por defecto está baleiro.
 // Ten esta forma:
@@ -178,10 +178,10 @@
 // - Familia (nome) -> STRING  nome da fonte
 // - Peso.          -> INT     número que especifica o groso da fonte
 // - Estilo         -> STRING  italic, regular
-// - Estiramento    -> RATIO   versións máis ou menos comprimidas
+// - Estiramento    -> RATIO   versións máis ou menos comprimidas.
 //
 // Ditos 4 valores especifican unha fonte concreta. Valores non especificados
-// vólvense 'auto'. Estos son varios dicionarios coa información das fontes, así é
+// volvense 'auto'. Esto son varios dicionarios ca información das fontes, así é
 // máis sinxelo cambialas.
 #let _norm = ( familia: "New Computer Modern"      , peso: 450 , estilo: "normal" , estiramento: 100% )
 #let _mate = ( familia: "Libertinus Math"          , peso: 400 , estilo: "normal" , estiramento: 100% )
@@ -262,22 +262,13 @@
 #let crear_portada() = context {
     let datos = _datos.get()
 
-    // Función para poñer en maiuscula o nome do mes
-    let primeira_letra_maiuscula(cadena) = {
-      return cadena.replace(
-        regex("[A-Za-z]+('[A-Za-z]+)?"),
-        palabra => upper(palabra.text.first()) + lower(palabra.text.slice(1)),
-        count: 1,
-      )
-    }
-
     grid(
 
     align   : (bottom + center),
     columns : 1fr,
     rows    : (
-        2.75cm,            // Título
-        1.12cm,            // Subtítulo
+        2.75cm,            // Titulo
+        1.12cm,            // Subtitulo
         2.1cm,             // Número e data
         210mm - (2 * 5mm), // Imaxe, alto exacto ao ancho da páxina menos as marxes
         297mm - (2 * 5mm) - 2.75cm - 1.12cm - 2.1cm - (210mm - (2 * 5mm)), // Logos
@@ -315,7 +306,7 @@
             text(
                 fill : rgb(datos.cor_texto),
                 size : 17pt,
-                mono[Núm.#datos.numero #h(1fr) #primeira_letra_maiuscula(datos.data_mes) #datos.data_ano]
+                mono[Núm.#datos.numero #h(1fr) #datos.data_mes #datos.data_ano]
             )
         )
     ),
@@ -394,7 +385,7 @@
         )
     )
 
-    )
+)
 }
 
 // Estilo para o índice de contidos
@@ -428,6 +419,7 @@
 // :FACER: simplificar na medida do posible todo o índice
 #let crear_indice() = context {
     let datos = _datos.get()
+
     grid(
 
     // Grid tamaño 4x3
@@ -470,7 +462,7 @@
             context for tema in _artigos.final().map(x => x.tema).dedup() {
                 // Mostramos o separador co tema
                 separador(tema)
-                // Do array de artigos, collemos os que teñen o noso tema e iteramos un a un
+                // Do array de artigos, collemos os que teñen o noso tema, e iteramos un a un
                 for artigo in _artigos.final().filter(x => x.tema == tema) {
                     // Creamos un ligazón
                     link(
@@ -490,7 +482,7 @@
                             h(1fr)
                             [*#(artigo.localizacion.page - 2)*] // PÁXINA, compensando onde comezan os artigos
                             linebreak()
-                            artigo.autoria // AUTORÍA
+                            artigo.autoria // AUTORIA
                             v(1em)
                         }
                     )
@@ -600,7 +592,9 @@
 }
 
 // xera o circuliño unha m dentro, para as cabeceiras
-#let circuliño = circle(
+#let circuliño = context{
+    let datos = _datos.get()
+    circle(
     fill   : rgb(datos.cor_resalte),
     radius : 1.4em,
     text(
@@ -608,17 +602,21 @@
         size : 22pt,
         [$accent(m,arrow)$]
     )
-)
+    )
+}
 
 // formatea o tema co estilo correcto, para as cabeceiras
-#let temiña(tema) = text(
+#let temiña(tema) = context {
+    let datos = _datos.get()
+    text(
     fill   : rgb(datos.cor_resalte),
     size   : 1.2em,
     font   : _cond.familia,
     stretch: _cond.estiramento,
     weight : "bold",
     upper(tema)
-)
+    )
+}
 
 // Estilo para os artigos
 #let estilo_artigos(
@@ -860,11 +858,14 @@
 
     )
     }
-
 }
 
 // Función que xunta todo
-#let crear_revista() = {
+#let crear_revista(numero, informacion_revista) = {
+
+    // Gardamos os datos deste número no estado global, para que o resto de
+    // funcións (e os propios artigos) poidan acceder a eles polo 'context'
+    _datos.update(informacion_por_defecto + informacion_revista + (numero: numero))
 
     // Activamos o estilo xeral, que vai afectar a toda a revista
     show: estilo_xeral
@@ -898,7 +899,7 @@
 
 }
 
-#let Artigo(                             /* TIPO      explicación */
+#let Artigo(                             /* TIPO      explicacion */
     titulo        : [-- SEN TÍTULO --],  // CONTENT Título do artigo
     autoria       : none,                // STRING  Quen fixo o artigo
     subtitulo     : none,                // CONTENT Subtítulo do artigo
@@ -913,10 +914,10 @@
     show: estilo_artigos.with(tema: tema)
 
     // Contidos do Titular. Un array cos elementos. Ao final filtramos este
-    // array para quedarnos só cos contidos distintos de 'none'. Se non hai
+    // array pa quedarnos so cos contidos distintos de 'none'. Se non hai
     // afiliación ou o subtítulo o grid do Titular vaise adaptar acorde.
     let filas_titular = (
-        // TÍTULO
+        // TITULO
         block(
             width : 100%,
             {
@@ -927,13 +928,13 @@
                     weight : "bold",
                     context {
                         condensada(heading(depth: 1, titulo)) /* Mostrar o título */
-                        let posicion = here().position() /* Variable coa posición actual */
+                        let posicion = here().position() /* Variable ca posición actual */
                         // Agora actualizamos a lista de artigos engadindo un
-                        // dicionario con título, autoría, posición e tema. Este
+                        // dicionario con titulo, autoría, posición e tema. Este
                         // dicionario é o que se usa no índice para sacar a
                         // info dos artigos
                         _artigos.update(
-                            // 'x' é o array actual. Engadímoslle (ou sexa,
+                            // 'x' é o array actual. Engadímoslle (ousexa,
                             // concatenamoslle) outro array que contén un
                             // dicionario cas claves 'titulo','autoria',
                             // 'localizacion' e 'tema'
@@ -981,7 +982,7 @@
 
 }
 
-// Citas que aparecen na bibliografía pero non no texto, análogo a `\nocite` en
+// Citas que aparecen na bibliografía pero non no texo, análogo a `\nocite` en
 // LaTeX
 #let SenCita(cita) = {
     place(hide(cite(label(cita))))
