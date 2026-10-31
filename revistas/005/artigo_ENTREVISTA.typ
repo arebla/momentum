@@ -208,7 +208,7 @@
 
 
   #v(1em)
-  #text(size: 12pt, fill: rgb(datos.cor_resalte))[
+  #context text(size: 12pt, fill: rgb(datos_actuais().cor_resalte))[
     _* O mundo necesita persoas que combinen cabeza, corazón e mans. *_
   ]
 
