@@ -337,7 +337,6 @@
     ),
 
     // Logos
-    // :FACER: meter info dos logos en datos_xxx.typ?
     grid.cell(
         x:0, y:4,
         grid(
@@ -561,6 +560,27 @@
 
 )
 
+// xera o circuliño unha m dentro, para as cabeceiras
+#let circuliño = circle(
+    fill   : rgb(datos.cor_resalte),
+    radius : 1.4em,
+    text(
+        fill : rgb(datos.cor_texto),
+        size : 22pt,
+        [$accent(m,arrow)$]
+    )
+)
+
+// formatea o tema co estilo correcto, para as cabeceiras
+#let temiña(tema) = text(
+    fill   : rgb(datos.cor_resalte),
+    size   : 1.2em,
+    font   : _cond.familia,
+    stretch: _cond.estiramento,
+    weight : "bold",
+    upper(tema)
+)
+
 // Estilo para os artigos
 #let estilo_artigos(
     tema: "-- SEN TEMA --",
@@ -578,64 +598,59 @@
             bottom : 25mm,
         ),
         header-ascent : 15pt,
-        header: {
+        header: context {
+            let pax_actual  = counter(page).get().first()     // páxina actual
+            let pax_totais  = counter(page).final().at(0) + 2 // páxinas totais, o +2 é polo 'update' despois do índice
+            let pax_brancas = calc.rem((4 - calc.rem(pax_totais,4)), 4) // cantas brancas engadir
+            // A cabeceira dos artigos é un grid de 3x3
             grid(
                 columns    : (1fr, 2.3cm, 1fr),
                 rows       : (1em,1em,1em),
                 row-gutter : 0pt,
                 align      : (left+horizon, center+horizon, right+horizon ),
-                grid.cell(
-                    x:0, y:0,
-                    text(
-                        fill   : rgb(datos.cor_resalte),
-                        size   : 1.2em,
-                        font   : _cond.familia,
-                        stretch: _cond.estiramento,
-                        weight : "bold",
-                        upper(tema)
-                    )
-                ),
-                grid.cell(x:0, y:1, line(length:100%, stroke:0.2pt)),
-                grid.cell(x:2, y:1, line(length:100%, stroke:0.2pt)),
-                grid.cell(
-                    x:1,
-                    rowspan:3,
-                    circle(
-                        fill   : rgb(datos.cor_resalte),
-                        radius : 1.4em,
-                        text(
-                            fill : rgb(datos.cor_texto),
-                            size : 22pt,
-                            [$accent(m,arrow)$]
-                        )
-                    )
+                grid.cell(x:1, rowspan:3, circuliño),                 // CIRCULO ca m
+                grid.cell(x:0, y:1, line(length:100%, stroke:0.2pt)), // LIÑAS
+                grid.cell(x:2, y:1, line(length:100%, stroke:0.2pt)), //
+                grid.cell( // TEMA
+                    y:0,
+                    // A colocación das cabeceiras depende de cantas páxinas en branco
+                    // fará falla engadir na versión impresa.
+                    //
+                    // - Engadir 0: trivial. As páxinas pares van na esquerda.
+                    // - Engadir 1: ponse despois da portada. Pares na dereita.
+                    // - Engadir 2: ponse despois da portada, e antes da contraportada. Pares na dereita.
+                    // - Engadir 3: ponse despois da portada, despois do índice e antes da contraportada. Pares na esquerda.
+                    //
+                    // As parellas (0,3), e (1,2) son equivalentes no sentido de que as páxinas
+                    // pares/impares quedan colocadas igual. Básicamente, seleccionamos
+                    // a coordenada 'x' deste grid.cell dependendo dos casos.
+                    //
+                    // Caso de engadir 0 ou 3 brancas
+                    x: if (pax_brancas == 0) or (pax_brancas == 3) {
+                        // engadindo 0 ou 3, as pares levan as cabeceiras á esquerda, e impares na dereita
+                        if calc.even(pax_actual) { 0 } else { 2 } // 0 -> primeira columna (columna esquerda), 2 -> terceira columna (columna dereita)
+                    // caso de engadir 1 ou 2 brancas
+                    } else if (pax_brancas == 1) or (pax_brancas == 2) {
+                        // engadindo 1 ou 2, as pares levan as cabeceiras á dereita, e impares na esquerda
+                        if calc.even(pax_actual) { 2 } else { 0 }
+                    },
+                    temiña(tema)
                 )
             )
         },
         footer : context {
-            let p = counter(page).get().first()
-            if calc.even(p) {
-                // Pe de paxinas pares
-                grid(
-                    columns : 1fr,
-                    rows    : 1fr,
-                    align   : (left + top),
-                    {
-                        let p = counter(page).get().first()
-                        [*#numbering("1",p)*#h(1fr)#text(font:_sans.familia, fill: rgb(datos.cor_resalte), [MOMENTUM])]
-                    }
-                )
-            } else {
-                // Pe de paxinas impares
-                grid(
-                    columns : 1fr,
-                    rows    : 1fr,
-                    align   : (right + top),
-                    {
-                        let p = counter(page).get().first()
-                        [#text(font:_sans.familia, fill: rgb(datos.cor_resalte), [MOMENTUM])#h(1fr)*#numbering("1",p)*]
-                    }
-                )
+            // Facemos algo semellante ás cabeceiras
+            let pax_actual  = counter(page).get().first()
+            let pax_totais  = counter(page).final().at(0) + 2
+            let pax_brancas = calc.rem((4 - calc.rem(pax_totais,4)), 4)
+            // contido para os pes, esquerdos e dereitos
+            let pe_esquerdo = [*#numbering("1",pax_actual)*#h(1fr)#text(font:_sans.familia, fill: rgb(datos.cor_resalte), [MOMENTUM])]
+            let pe_dereito  = [#text(font:_sans.familia, fill: rgb(datos.cor_resalte), [MOMENTUM])#h(1fr)*#numbering("1",pax_actual)*]
+            // facemos as mesmas comprobacións que antes
+            if (pax_brancas == 0) or (pax_brancas == 3) {
+                if calc.even(pax_actual) { pe_esquerdo } else { pe_dereito }
+            } else if (pax_brancas == 1) or (pax_brancas == 2) {
+                if calc.even(pax_actual) { pe_dereito } else { pe_esquerdo }
             }
         }
     )
@@ -686,12 +701,10 @@
     set columns(2, gutter: 5mm, balanced: true)
     show link: set text(fill: rgb("#0000EE"), font: _mono.familia, tracking: -0.5pt)
 
-    // :FACER: referencias a ecuacións, figuras, etc
     doc
 }
 
 // Estilo para a contraportada
-// :FACER:MIGRACION: estilo da contraportada
 #let estilo_contraportada(doc) = {
     set page(
         margin     : (top : 5mm, left : 6mm, right : 6mm, bottom : 8mm),
@@ -808,7 +821,6 @@
 }
 
 // Función que xunta todo
-// :FACER:MIGRACION: versión impresa
 #let crear_revista() = {
 
     // Activamos o estilo xeral, que vai afectar a toda a revista
@@ -932,7 +944,6 @@
 
 #let CrearBibliografia(bib) = {
     // Nota: as traduccións de CSL están incluídas xa en hayagriva: https://github.com/typst/hayagriva/blob/main/archive/locales/gl-ES.cbor
-    // :FACER:MIGRACION: usar o nome do ficheiro automaticamente
     heading(depth: 2, condensada[*Referencias*])
     bibliography(
         bib,
